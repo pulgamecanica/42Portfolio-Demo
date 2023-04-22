@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<script src="https://d3js.org/d3.v7.min.js"></script>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+	{% block custom_stylesheets %} {% endblock %}
+	{% block custom_javascript %} {% endblock %}
+	<title>{% block page_title %}42 Portfolio{% endblock %}</title>
+</head>
+<body>
+	<nav><h1>42 Portfolio Project</h1></nav>
+	<div id="content">
+	{% block content %}
+	
+	{% endblock %}
+	</div>
+	<footer>All rights reserved by 42 Lisboa</footer>
+</body>
+</html>
