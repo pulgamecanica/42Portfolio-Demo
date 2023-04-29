@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', views.userIndex, name="userIndex"),
     path('users/<str:intra_username>', views.userShow, name="userShow"),
+    path('auth/intra_callback', views.intraCallback, name="intraCallback"),
 ]
