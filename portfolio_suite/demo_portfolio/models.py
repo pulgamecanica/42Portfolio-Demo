@@ -25,3 +25,4 @@ class User(AbstractUser):
 
 	def serialize(self):
 		return serialize('json', [self])[1:-1]
+

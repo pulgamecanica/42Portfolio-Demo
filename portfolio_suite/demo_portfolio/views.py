@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth import login
 from django.http import HttpResponse
 from demo_portfolio.models import User
 import requests
@@ -19,10 +20,18 @@ def intraCallback(request):
 		'code': request.GET["code"],
 		'redirect_uri': 'http://localhost:8000/auth/intra_callback',
 	}
-	print("Path", get_token_path)
-	print("Data", data)
 	r = requests.post(get_token_path, data=data)
 	token = r.json()['access_token']
 	headers = {"Authorization": "Bearer %s" % token}
 	user_response = requests.get("https://api.intra.42.fr/v2/me", headers=headers)
-	return HttpResponse(user_response.content)
+	user_response_json = user_response.json()
+	
+	user, created = User.objects.get_or_create(
+    	intra_id=user_response_json['id'],
+    	intra_username=user_response_json['login'],
+    	first_name=user_response_json['first_name'],
+    	last_name=user_response_json['last_name'],
+    	email=user_response_json['email'],
+	)
+	login(request, user)
+	return HttpResponse("User %s %s" % (user, "created now" if created else "found"))
